@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:InfiniteListView"
+    x:Class="InfiniteListView.InfiniteListViewPage"
+    Title="Infinite Scrolling List"
+    xmlns:scroll="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling">
+	<ListView
+        CachingStrategy="RecycleElement"
+        ItemsSource="{Binding Items}">
+        <ListView.Behaviors>
+            <scroll:InfiniteScrollBehavior />
+        </ListView.Behaviors>
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding Text}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+        <!-- the "loading..." view, with visibility bound to IsWorking -->
+        <ListView.Footer>
+            <Grid Padding="4" IsVisible="{Binding IsLoadingMore}">
+                <!-- set the footer to have a zero height when invisible -->
+                <Grid.Triggers>
+                    <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                        <Setter Property="HeightRequest" Value="0" />
+                    </Trigger>
+                </Grid.Triggers>
+                <!-- the loading content -->
+                <ActivityIndicator
+                    IsRunning="true"
+                    Color="Black"
+                    WidthRequest="20"
+                    HeightRequest="20"/>
+            </Grid>
+        </ListView.Footer>
+    </ListView>
+</ContentPage>
